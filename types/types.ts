@@ -5,5 +5,6 @@ export interface Movie {
   backDrop: string,
   genres: number[],
   overview: string,
-  poster: string
+  poster: string,
+  width: number
 }

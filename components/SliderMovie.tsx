@@ -1,10 +1,15 @@
-import { Image, Pressable, StyleSheet, Text, View } from "react-native";
+import { Dimensions, Image, Pressable, StyleSheet, Text, View } from "react-native";
 
 import { Movie } from "../types/types";
 import { ImageUrl } from "../service/api";
 
-
-export default function SliderMovie({ movie }: { movie: Movie }){
+type Props = {
+  movie: Movie;
+  index: number; 
+};
+const {width, height} = Dimensions.get('window')
+   const    ITEM_SIZE = width*0.72 
+export default function SliderMovie({ movie, index }:Props){
     
     return <Pressable style={({pressed})=>[styles.wrapper, pressed && styles.pressed]}>
         <Image style={styles.image} source={{uri: `${ImageUrl}${movie.poster}`}}/>
@@ -18,7 +23,9 @@ export default function SliderMovie({ movie }: { movie: Movie }){
 }
 
 const styles = StyleSheet.create({
-    wrapper: {},
+    wrapper: {width: ITEM_SIZE,
+        padding: 20
+    },
     pressed: {
         opacity: 0.6
     },
