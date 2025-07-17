@@ -13,7 +13,7 @@ const {width, height} = Dimensions.get('window')
 const    ITEM_SIZE = width*0.72 
 const SPACER_SIZE = (width- ITEM_SIZE) / 2
 export default function SliderMovie({ movie, index, scrollX }:Props){
-    //const scrollX = useSharedValue(0);
+    
     const inputRange =[
         (index-2)*ITEM_SIZE,
         (index-1)*ITEM_SIZE,
