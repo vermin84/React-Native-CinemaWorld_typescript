@@ -24,7 +24,7 @@ const scrollHandler = useAnimatedScrollHandler({
         setIsLoading(true)
         const res = await getMovies()
       
-        setMovieList(res)
+        setMovieList([{id: 'left-spacer'},...res, {id: 'right-spacer'}])
         setIsLoading(false)
      } 
 fetchData()
@@ -34,7 +34,7 @@ fetchData()
     <SafeAreaView>
       <View>
         <Text>HomeScreen</Text>
-        {!isLoading && <Animated.FlatList onScroll={scrollHandler} decelerationRate={0} bounces={false} snapToInterval={ITEM_SIZE}  horizontal data={movieList} keyExtractor={item=> item.id} renderItem={({item})=><SliderMovie movie={item}/>}/>}
+        {!isLoading && <Animated.FlatList scrollEventThrottle={16} onScroll={scrollHandler} decelerationRate={0} bounces={false} snapToInterval={ITEM_SIZE}  horizontal data={movieList} keyExtractor={item=> item.id} renderItem={({item, index})=><SliderMovie movie={item}  scrollX={scrollX} index={index}/>}/>}
       </View>
     </SafeAreaView>
   );

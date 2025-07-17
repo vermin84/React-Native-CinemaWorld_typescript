@@ -1,17 +1,39 @@
 import { Dimensions, Image, Pressable, StyleSheet, Text, View } from "react-native";
+import Animated, { interpolate, useAnimatedStyle, useSharedValue } from "react-native-reanimated";
 
 import { Movie } from "../types/types";
 import { ImageUrl } from "../service/api";
 
 type Props = {
-  movie: Movie;
-  index: number; 
+    movie: Movie;
+    index: number;
+    scrollX: Animated.SharedValue<number>; 
 };
 const {width, height} = Dimensions.get('window')
-   const    ITEM_SIZE = width*0.72 
-export default function SliderMovie({ movie, index }:Props){
-    
-    return <Pressable style={({pressed})=>[styles.wrapper, pressed && styles.pressed]}>
+const    ITEM_SIZE = width*0.72 
+const SPACER_SIZE = (width- ITEM_SIZE) / 2
+export default function SliderMovie({ movie, index, scrollX }:Props){
+    //const scrollX = useSharedValue(0);
+    const inputRange =[
+        (index-2)*ITEM_SIZE,
+        (index-1)*ITEM_SIZE,
+        (index)*ITEM_SIZE
+    ]
+
+    const animatedStyle = useAnimatedStyle(() => {
+    const translateY = interpolate(
+      scrollX.value,
+      inputRange,
+      [50, 0, 50]
+    );
+    return {
+      transform: [{ translateY }],
+    };
+  });
+  if(!movie.poster) return <View style={{width: SPACER_SIZE}}></View>
+    return    <Animated.View style={[styles.wrapper, animatedStyle]}>
+
+    <Pressable style={({pressed})=>[styles.wrapper, pressed && styles.pressed]}>
         <Image style={styles.image} source={{uri: `${ImageUrl}${movie.poster}`}}/>
         <Text>{movie.title}</Text>
         <Text>{movie.rating}</Text>
@@ -20,6 +42,7 @@ export default function SliderMovie({ movie, index }:Props){
         
             </View>
     </Pressable>
+    </Animated.View>
 }
 
 const styles = StyleSheet.create({
