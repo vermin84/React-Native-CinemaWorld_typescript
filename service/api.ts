@@ -21,12 +21,12 @@ export async function getMovieById(id: string){
         id : res.data.id,
         title :res.data.title,
         genres: res.data.genres,
-        rating: res.data.rating,
+        rating: res.data.vote_average,
         overview: res.data.overview,
         poster: res.data.poster_path,
-        production: res.data.production
-
+        production: res.data.production_companies,
+        releaseDate: res.data.release_date
     }
-    console.log(res.data)
+    
     return movieInfo
 }

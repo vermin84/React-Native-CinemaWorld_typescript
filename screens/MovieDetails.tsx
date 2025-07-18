@@ -12,7 +12,7 @@ export default function MovieDetails({route}: any){
     useEffect(()=>{
         async function GetMovie(id:string   ) {
             const res = await getMovieById(id)
-            console.log(res)
+            
             setMovieData(res)
         }
         GetMovie(id)

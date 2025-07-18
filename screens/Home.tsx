@@ -12,7 +12,7 @@ export default function Home({navigation}: any) {
   const [movieList, setMovieList]= useState<Movie[]> ([])
   
   const [isLoading, setIsLoading] = useState(true)
-  const {width, height} = Dimensions.get('window')
+  const {width} = Dimensions.get('window')
    const    ITEM_SIZE = width*0.72 
    const scrollX = useSharedValue(0);
 
