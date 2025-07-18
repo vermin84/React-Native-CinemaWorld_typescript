@@ -8,11 +8,12 @@ type Props = {
     movie: Movie;
     index: number;
     scrollX: Animated.SharedValue<number>; 
+    onPress: (id: string)=> void
 };
 const {width, height} = Dimensions.get('window')
 const    ITEM_SIZE = width*0.72 
 const SPACER_SIZE = (width- ITEM_SIZE) / 2
-export default function SliderMovie({ movie, index, scrollX }:Props){
+export default function SliderMovie({ movie, index, scrollX, onPress }:Props){
     
     const inputRange =[
         (index-2)*ITEM_SIZE,
@@ -33,9 +34,9 @@ export default function SliderMovie({ movie, index, scrollX }:Props){
   if(!movie.poster) return <View style={{width: SPACER_SIZE}}></View>
     return    <Animated.View style={[styles.wrapper, animatedStyle]}>
 
-    <Pressable style={({pressed})=>[styles.wrapper, pressed && styles.pressed]}>
+    <Pressable onPress={()=>onPress(movie.id)} style={({pressed})=>[styles.imageWrapper, pressed && styles.pressed]}>
         <Image style={styles.image} source={{uri: `${ImageUrl}${movie.poster}`}}/>
-        <Text>{movie.title}</Text>
+        <Text style={styles.titleText}>{movie.title}</Text>
         <Text>{movie.rating}</Text>
         <View style={styles.ratingContainer}>
        
@@ -47,19 +48,33 @@ export default function SliderMovie({ movie, index, scrollX }:Props){
 
 const styles = StyleSheet.create({
     wrapper: {width: ITEM_SIZE,
-        padding: 20
+        padding: 15,
+        
+        overflow: 'hidden',
+        
     },
     pressed: {
-        opacity: 0.6
+       
+        opacity: 0.6,
+       
+    },
+    imageWrapper: {
+         padding: 20,
+        backgroundColor: 'rgba(255,255,255,0.6)',
+        borderRadius: 20,
+        marginHorizontal: 'auto'
+
     },
     image: {
         height: 250,
-        width: 200
+        width: 200,
+        borderRadius: 20
+    },
+    titleText: {
+      fontSize: 18,
+      fontWeight: '700'
     },
     ratingContainer: {
-    alignSelf: 'flex-start', // Критически важно
-    marginTop: 4,
-     backgroundColor: 'red', // Для проверки видимости контейнера
-        padding: 10,
+    
   }
 })

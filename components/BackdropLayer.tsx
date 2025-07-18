@@ -6,7 +6,6 @@ import Animated, {
 } from "react-native-reanimated";
 
 import { Movie } from "../types/types";
-import { ImageUrl } from "../service/api";
 import BackdropImage from "./BackdropImage";
 
 const { width, height } = Dimensions.get("window");
@@ -19,7 +18,7 @@ type Props = {
   
 };
 
-export default function BackdropLayer({ movies, scrollX, onScroll }: Props) {
+export default function BackdropLayer({ movies, scrollX }: Props) {
   return (
     <View style={styles.wrapper}>
       {movies.map((item, index) => <BackdropImage key={item.id} scrollX={scrollX} item={item} index={index}/>)}

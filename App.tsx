@@ -5,6 +5,7 @@ import { StyleSheet, Text, View } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import Home from "./screens/Home";
+import MovieDetails from "./screens/MovieDetails";
 
 const Stack = createNativeStackNavigator();
 
@@ -17,6 +18,7 @@ export default function App() {
           screenOptions={{ headerShown: false }}
         >
           <Stack.Screen name="Home" component={Home} />
+          <Stack.Screen name="MovieDetails" component={MovieDetails} />
         </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaProvider>

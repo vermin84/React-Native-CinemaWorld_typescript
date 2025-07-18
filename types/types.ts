@@ -2,9 +2,11 @@ export interface Movie {
   id: string,
   title: string,
   rating: number,
-  backDrop: string,
+  backDrop?: string,
   genres: number[],
   overview: string,
   poster: string,
-  width: number
+  width?: number,
+  production?: Array<{id: string, logo_path: string, name: string, origin_country: string}>
 }
+
