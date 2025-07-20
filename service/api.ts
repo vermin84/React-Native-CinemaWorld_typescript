@@ -4,8 +4,11 @@ import { Movie } from "../types/types"
 
 const API_KEY = '7788e3316511533eb7faf40b8fe0a13a'
 
-export const ImageUrl = 'https://image.tmdb.org/t/p/w500'
+const GOOGLE_API_KEY = 'AIzaSyB2R68kUOldaA9c0i4FW8txo5jlOBQQZ0E'
+const YOUTUBE_SEARCH_URL = "https://www.googleapis.com/youtube/v3/search";
 
+export const ImageUrl = 'https://image.tmdb.org/t/p/w500'
+//search trending movies on movie database
 const MovieUrl = 'https://api.themoviedb.org/3/movie/'
 export async function getMovies(){
     const res = await axios.get(`${MovieUrl}now_playing?api_key=${API_KEY}&page=1`)
@@ -14,7 +17,7 @@ export async function getMovies(){
     return movieList
 }
 
-
+//search movie info by ID on movie database
 export async function getMovieById(id: string){
     const res = await axios.get(`${MovieUrl}${id}?api_key=${API_KEY}`)
     const movieInfo :Movie ={
@@ -29,4 +32,34 @@ export async function getMovieById(id: string){
     }
     
     return movieInfo
+}
+
+// search trailer jn youtube
+export async function getYoutubeTrailerUrl(movieTitle: string): Promise<string | null> {
+  try {
+    const response = await axios.get(YOUTUBE_SEARCH_URL, {
+      params: {
+        part: "snippet",
+        q: `${movieTitle} official trailer`,
+        key: GOOGLE_API_KEY,
+        maxResults: 1,
+        type: "video",
+        videoEmbeddable: "true",
+      },
+    });
+
+    const video = response.data.items[0];
+    
+    
+    //return video.id.videoId
+
+    if (video) {
+      return `https://www.youtube.com/watch?v=${video.id.videoId}`;
+    } else {
+      return null;
+    }
+  } catch (error) {
+    console.error("Error fetching YouTube trailer:", error);
+    return null;
+  }
 }

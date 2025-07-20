@@ -8,7 +8,7 @@ type Props = {
     movie: Movie;
     index: number;
     scrollX: Animated.SharedValue<number>; 
-    onPress: (id: string)=> void
+    onPress: (id: number)=> void
 };
 const {width, height} = Dimensions.get('window')
 const    ITEM_SIZE = width*0.72 
@@ -34,7 +34,7 @@ export default function SliderMovie({ movie, index, scrollX, onPress }:Props){
   if(!movie.poster) return <View style={{width: SPACER_SIZE}}></View>
     return    <Animated.View style={[styles.wrapper, animatedStyle]}>
 
-    <Pressable onPress={()=>onPress(movie.id)} style={({pressed})=>[styles.imageWrapper, pressed && styles.pressed]}>
+    <Pressable onPress={()=>onPress(+movie.id)} style={({pressed})=>[styles.imageWrapper, pressed && styles.pressed]}>
         <Image style={styles.image} source={{uri: `${ImageUrl}${movie.poster}`}}/>
         <Text style={styles.titleText}>{movie.title}</Text>
         <Text>{movie.rating}</Text>

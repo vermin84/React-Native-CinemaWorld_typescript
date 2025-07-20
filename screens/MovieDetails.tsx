@@ -1,25 +1,43 @@
 import { useEffect, useState } from "react";
 import { Dimensions, Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { WebView } from 'react-native-webview';
+import YoutubePlayer from "react-native-youtube-iframe";
 
 
-import { getMovieById, ImageUrl } from "../service/api";
+import { getMovieById, getYoutubeTrailerUrl, ImageUrl } from "../service/api";
 import { Movie } from "../types/types";
+import YoutubeVideo from "../components/YoutubeVideo";
 
 const {width, height} = Dimensions.get('window')
 const IMAGE_WIDTH = width * 0.8
 export default function MovieDetails({route}: any){
     const id = route.params
     const [movieData, setMovieData] = useState<Movie>()
+    const [trailerUrl, setTrailerUrl] = useState<string | null>(null);
+    
 
     useEffect(()=>{
         async function GetMovie(id:string   ) {
             const res = await getMovieById(id)
-           console.log(res) 
+           //console.log(res) 
             setMovieData(res)
         }
         GetMovie(id)
     },[id])
+
+    useEffect(()=>{
+        async function fetchTrailer() {
+            if (!movieData?.title) return
+            const url = await getYoutubeTrailerUrl(movieData.title);
+            
+    setTrailerUrl(url || null); // сохраняешь в стейт
+  }
+  fetchTrailer();
+
+    }, [movieData])
+
+    
     return <SafeAreaView style={styles.wrapper}>
         <ScrollView>
 
@@ -34,6 +52,7 @@ export default function MovieDetails({route}: any){
                             <Text>Genres: {movieData.genres.map((item, index)=><Text key={item.id}>{movieData.genres.length-1>index ? item.name+', ' : item.name}</Text>)} </Text>
 
                         </View>
+                        {trailerUrl && <YoutubeVideo videoUrl={trailerUrl}/>}
                     </View>}
         </ScrollView>
     </SafeAreaView>
@@ -49,11 +68,12 @@ const styles = StyleSheet.create({
     },
     posterImage: {  
         width: IMAGE_WIDTH,
-        aspectRatio: 1 / 1,
+        aspectRatio: 1 / 1.3,
         maxWidth: 300,
         borderRadius: 20,
         marginHorizontal: 'auto',
-        marginVertical: 10
+        marginVertical: 10,
+        
     },
     title: {
         fontSize: 25,
@@ -69,6 +89,13 @@ const styles = StyleSheet.create({
         fontWeight: '600',
         textAlign: 'center',
         paddingVertical: 10
+    },
+    playerWrapper: {
+        marginHorizontal: 5,
+        marginVertical: 15,
+        width: '100%',
+        aspectRatio: 16 / 9
+    
     }
     
 })
