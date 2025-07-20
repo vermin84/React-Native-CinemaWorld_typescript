@@ -3,11 +3,11 @@ export interface Movie {
   title: string,
   rating?: number,
   backDrop?: string,
-  genres: number[],
+  genres: Array<{id: number, name: string}>,
   overview: string,
   poster: string,
   width?: number,
-  production?: Array<{id: string, logo_path: string, name: string, origin_country: string}>,
+  production?: Array<{id: number, logo_path: string, name: string, origin_country: string}>,
   releaseDate?: string
 }
 
