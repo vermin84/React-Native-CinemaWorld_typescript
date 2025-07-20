@@ -39,7 +39,7 @@ export default function SliderMovie({ movie, index, scrollX, onPress }:Props){
         <Text style={styles.titleText}>{movie.title}</Text>
         <Text>{movie.rating}</Text>
         <View style={styles.ratingContainer}>
-       
+    
         
             </View>
     </Pressable>

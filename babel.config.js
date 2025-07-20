@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   presets: ['module:metro-react-native-babel-preset'],
   plugins: [
     [
@@ -11,6 +11,7 @@ export default {
         safe: false,
         allowUndefined: true
       }
-    ]
+    ],
+    'react-native-reanimated/plugin' // <-- ОБЯЗАТЕЛЬНО отдельной строкой и ПОСЛЕДНИМ!
   ]
 };
