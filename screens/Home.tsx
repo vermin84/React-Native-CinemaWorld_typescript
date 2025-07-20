@@ -3,6 +3,7 @@ import { Dimensions, StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Animated, { useAnimatedScrollHandler, useSharedValue } from "react-native-reanimated";
 
+
 import { getMovies } from "../service/api";
 import { Movie } from "../types/types";
 import SliderMovie from "../components/SliderMovie";

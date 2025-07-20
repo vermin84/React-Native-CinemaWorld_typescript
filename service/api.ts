@@ -1,10 +1,12 @@
 import axios from "axios"
+import { GOOGLE_API_KEY} from '@env'
 
 import { Movie } from "../types/types"
 
+ 
+
 const API_KEY = '7788e3316511533eb7faf40b8fe0a13a'
 
-const GOOGLE_API_KEY = 'AIzaSyB2R68kUOldaA9c0i4FW8txo5jlOBQQZ0E'
 const YOUTUBE_SEARCH_URL = "https://www.googleapis.com/youtube/v3/search";
 
 export const ImageUrl = 'https://image.tmdb.org/t/p/w500'
