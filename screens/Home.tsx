@@ -20,6 +20,7 @@ export default function Home({navigation}: any) {
 const scrollHandler = useAnimatedScrollHandler({
   onScroll: (event) => {
     scrollX.value = event.contentOffset.x;
+    
   },
 });
   useEffect(()=>{
