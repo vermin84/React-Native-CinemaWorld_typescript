@@ -9,7 +9,7 @@ import { Movie } from "../types/types";
 import BackdropImage from "./BackdropImage";
 
 const { width, height } = Dimensions.get("window");
-const BACKDROP_HEIGHT = height * 0.6;
+const BACKDROP_HEIGHT = height * 0.8;
 const ITEM_SIZE = width * 0.72;
 
 type Props = {

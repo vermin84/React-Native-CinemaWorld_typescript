@@ -40,7 +40,6 @@ fetchData()
     <SafeAreaView style={styles.wrapper}>
       <View style={styles.wrapper}>
         {!isLoading && <BackdropLayer movies={movieList}  scrollX={scrollX}/>}
-        {!isLoading && <FlatList horizontal data={movieList} keyExtractor={item=> item.id} renderItem={({item})=><View><Text>{item.title}</Text></View>}/>}
         {!isLoading && <Animated.FlatList showsHorizontalScrollIndicator={false} style={styles.animatedFlatlist} scrollEventThrottle={16} onScroll={scrollHandler} decelerationRate={0} bounces={false} snapToInterval={ITEM_SIZE}  horizontal data={movieList} keyExtractor={item=> item.id} renderItem={({item, index})=><SliderMovie movie={item} onPress={navigateHandler}  scrollX={scrollX} index={index}/>}/>}
       </View>
         

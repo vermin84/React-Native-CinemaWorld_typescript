@@ -31,17 +31,19 @@ export default function SliderMovie({ movie, index, scrollX, onPress }:Props){
       transform: [{ translateY }],
     };
   });
+  
   if(!movie.poster) return <View style={{width: SPACER_SIZE}}></View>
     return    <Animated.View style={[styles.wrapper, animatedStyle]}>
 
     <Pressable onPress={()=>onPress(+movie.id)} style={({pressed})=>[styles.imageWrapper, pressed && styles.pressed]}>
         <Image style={styles.image} source={{uri: `${ImageUrl}${movie.poster}`}}/>
         <Text style={styles.titleText}>{movie.title}</Text>
-        <Text>{movie.rating}</Text>
         <View style={styles.ratingContainer}>
-    
+        <Text style={styles.rating}>{movie.rating?.toFixed(1)}</Text>
+        
         
             </View>
+            
     </Pressable>
     </Animated.View>
 }
@@ -51,6 +53,7 @@ const styles = StyleSheet.create({
         padding: 15,
         
         overflow: 'hidden',
+        
         
     },
     pressed: {
@@ -72,9 +75,18 @@ const styles = StyleSheet.create({
     },
     titleText: {
       fontSize: 18,
-      fontWeight: '700'
+      fontWeight: '700',
+      marginVertical: 10,
+      textAlign: 'center'
     },
     ratingContainer: {
+      alignItems:'center',
+      justifyContent: 'center'
     
+  },
+  rating: {
+    fontSize:20,
+    fontWeight: '700',
+    textAlign: 'center'
   }
 })

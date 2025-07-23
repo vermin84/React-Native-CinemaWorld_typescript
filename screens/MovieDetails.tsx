@@ -26,7 +26,7 @@ export default function MovieDetails({route}: any){
         GetMovie(id)
     },[id])
 
-    useEffect(()=>{
+  /*  useEffect(()=>{
         async function fetchTrailer() {
             if (!movieData?.title) return
             const url = await getYoutubeTrailerUrl(movieData.title);
@@ -35,7 +35,7 @@ export default function MovieDetails({route}: any){
   }
   fetchTrailer();
 
-    }, [movieData])
+    }, [movieData])*/
 
     
     return <SafeAreaView style={styles.wrapper}>

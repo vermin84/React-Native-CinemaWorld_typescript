@@ -7,6 +7,7 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import Home from "./screens/Home";
 import MovieDetails from "./screens/MovieDetails";
+import CustomBottomTabBar from "./components/CustomBottomTabBar";
 
 const Stack = createNativeStackNavigator();
 
@@ -21,6 +22,7 @@ export default function App() {
           <Stack.Screen name="Home" component={Home} />
           <Stack.Screen name="MovieDetails" component={MovieDetails} />
         </Stack.Navigator>
+        <CustomBottomTabBar/>
       </NavigationContainer>
     </SafeAreaProvider>
   );
