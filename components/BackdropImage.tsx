@@ -5,7 +5,7 @@ import { ImageUrl } from "../service/api";
 import { Movie } from "../types/types";
 
 const { width, height } = Dimensions.get("window");
-const BACKDROP_HEIGHT = height * 0.8;
+const BACKDROP_HEIGHT = height * 0.6;
 const ITEM_SIZE = width * 0.72;
 
 type Props = {
