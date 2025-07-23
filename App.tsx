@@ -19,14 +19,11 @@ const Tabs = createBottomTabNavigator()
 
 function StackNavigation(){
   return <Stack.Navigator
-          initialRouteName="Home"
+          initialRouteName="HomeScreen"
           screenOptions={{ headerShown: false }}
         >
-          <Stack.Screen name="Home" component={Home} />
-          <Stack.Screen name="MovieDetails" component={MovieDetails} options={{ 
-    // Скрыть таббар, когда открыт этот экран
-    tabBarStyle: { display: 'none' }
-  }}/>
+          <Stack.Screen name="HomeScreen" component={Home} />
+          <Stack.Screen name="MovieDetails" component={MovieDetails}/>
         </Stack.Navigator>
 }
 

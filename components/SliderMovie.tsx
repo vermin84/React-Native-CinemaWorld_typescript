@@ -46,6 +46,7 @@ export default function SliderMovie({ movie, index, scrollX, onPress }:Props){
             
     </Pressable>
     </Animated.View>
+    
 }
 
 const styles = StyleSheet.create({
@@ -56,17 +57,19 @@ const styles = StyleSheet.create({
         
         
     },
+    
+
     pressed: {
        
         opacity: 0.6,
        
     },
     imageWrapper: {
-         padding: 20,
+        padding: 20,
         backgroundColor: 'rgba(255,255,255,0.6)',
         borderRadius: 20,
-        marginHorizontal: 'auto'
-
+        marginHorizontal: 'auto',
+       
     },
     image: {
         height: 250,
