@@ -4,6 +4,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 import { getActorInfo, getActorMovieCredits } from "../service/api";
 import { ActorInfo, MovieCredit } from "../types/types";
+import MoviePrewiev from "../components/MoviePrewiev";
 
 export default function ActorDetails({route}: any){
     const [actorInfo, setActorInfo] = useState<ActorInfo>()
@@ -24,6 +25,8 @@ export default function ActorDetails({route}: any){
         }
         getCredits()
      },[id])  
+
+     console.log(actorsFilms?.[0])
 return <SafeAreaView>
     
     {actorInfo && <ScrollView style={styles.wrapper}>
@@ -34,8 +37,8 @@ return <SafeAreaView>
             
             <Text style={styles.actorDate}>{actorInfo.birthday}</Text>
             <Text style={styles.biography}>{actorInfo.biography}</Text>
-            {actorsFilms && <FlatList showsHorizontalScrollIndicator={false} horizontal data={actorsFilms} keyExtractor={film=>film.id.toString()}
-            renderItem={({item, index})=><Text>{item.character}</Text>}
+            {actorsFilms && <FlatList showsHorizontalScrollIndicator={false} horizontal data={actorsFilms.slice(0,10)} keyExtractor={(film, index)=>index.toString()}
+            renderItem={({item})=><MoviePrewiev movieCredit={item } />}
             />}
         </ScrollView>}
 </SafeAreaView>
