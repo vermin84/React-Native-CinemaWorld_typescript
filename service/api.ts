@@ -1,7 +1,7 @@
 import axios from "axios"
 import { GOOGLE_API_KEY} from '@env'
 
-import { Actor, Movie } from "../types/types"
+import { Actor, ActorInfo, Movie } from "../types/types"
 
  
 
@@ -10,7 +10,8 @@ const API_KEY = '7788e3316511533eb7faf40b8fe0a13a'
 const YOUTUBE_SEARCH_URL = "https://www.googleapis.com/youtube/v3/search";
 
 export const ImageUrl = 'https://image.tmdb.org/t/p/w500'
-export const ImageUrlsmall = 'https://image.tmdb.org/t/p/w300'
+const ActorImage = 'https://image.tmdb.org/t/p/w500'
+export const ImageUrlsmall = 'https://image.tmdb.org/t/p/w185'
 //search trending movies on movie database
 const MovieUrl = 'https://api.themoviedb.org/3/movie/'
 export async function getMovies(){
@@ -81,6 +82,35 @@ export async function getMovieCast(movieId: string){
     
   } catch (error) {
     console.error('Ошибка при получении списка актёров:', error);
+    throw error;
+  }
+}
+
+
+
+
+export async function getActorInfo(actorId: number): Promise<ActorInfo> {
+  try {
+    const res = await axios.get(`https://api.themoviedb.org/3/person/${actorId}`, {
+      params: {
+        api_key: API_KEY,
+        //language: 'ru-RU', // можно указать нужный язык
+      },
+    });
+
+    const data = res.data;
+
+    return {
+      id: data.id,
+      name: data.name,
+      birthday: data.birthday,
+      place_of_birth: data.place_of_birth,
+      biography: data.biography,
+      profile_path: data.profile_path,
+      photo: data.profile_path ? ActorImage + data.profile_path : '',
+    };
+  } catch (error) {
+    console.error('Ошибка при получении информации об актёре:', error);
     throw error;
   }
 }

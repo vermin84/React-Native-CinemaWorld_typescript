@@ -16,3 +16,13 @@ export interface Movie {
   name: string,
   profile_path: string | null | undefined
  }
+
+ export interface ActorInfo {
+  id: number;
+  name: string;
+  birthday: string | null;
+  place_of_birth: string | null;
+  biography: string | null;
+  profile_path: string | null;
+  photo: string;  
+}
