@@ -1,7 +1,7 @@
 import axios from "axios"
 import { GOOGLE_API_KEY} from '@env'
 
-import { Actor, ActorInfo, Movie } from "../types/types"
+import { Actor, ActorInfo, Movie, MovieCredit } from "../types/types"
 
  
 
@@ -12,6 +12,7 @@ const YOUTUBE_SEARCH_URL = "https://www.googleapis.com/youtube/v3/search";
 export const ImageUrl = 'https://image.tmdb.org/t/p/w500'
 const ActorImage = 'https://image.tmdb.org/t/p/w500'
 export const ImageUrlsmall = 'https://image.tmdb.org/t/p/w185'
+const filmographyURL = 'https://api.themoviedb.org/3'
 //search trending movies on movie database
 const MovieUrl = 'https://api.themoviedb.org/3/movie/'
 export async function getMovies(){
@@ -55,7 +56,7 @@ export async function getYoutubeTrailerUrl(movieTitle: string): Promise<string |
     const video = response.data.items[0];
     
     
-    //return video.id.videoId
+    
 
     if (video) {
       return `https://www.youtube.com/watch?v=${video.id.videoId}`;
@@ -68,7 +69,7 @@ export async function getYoutubeTrailerUrl(movieTitle: string): Promise<string |
   }
 }
 
-
+ //search actors from movie by movie id 
 
 export async function getMovieCast(movieId: string){
    try {
@@ -87,14 +88,14 @@ export async function getMovieCast(movieId: string){
 }
 
 
-
+// search actor info by actor id
 
 export async function getActorInfo(actorId: number): Promise<ActorInfo> {
   try {
     const res = await axios.get(`https://api.themoviedb.org/3/person/${actorId}`, {
       params: {
         api_key: API_KEY,
-        //language: 'ru-RU', // можно указать нужный язык
+        //language: 'ru-RU', 
       },
     });
 
@@ -111,6 +112,23 @@ export async function getActorInfo(actorId: number): Promise<ActorInfo> {
     };
   } catch (error) {
     console.error('Ошибка при получении информации об актёре:', error);
+    throw error;
+  }
+}
+//search filmography
+
+export async function getActorMovieCredits(personId: number): Promise<MovieCredit[]> {
+  try {
+    const response = await axios.get(`${filmographyURL}/person/${personId}/movie_credits`, {
+      params: {
+        api_key: API_KEY,
+        //language: 'ru-RU',
+      },
+    });
+    // Возвращаем массив фильмов, где актёр был в составе кастинга
+    return response.data.cast;
+  } catch (error) {
+    console.error('Ошибка при получении фильмографии актёра:', error);
     throw error;
   }
 }

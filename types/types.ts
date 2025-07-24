@@ -26,3 +26,11 @@ export interface Movie {
   profile_path: string | null;
   photo: string;  
 }
+
+export interface MovieCredit {
+  id: number;
+  title: string;
+  character: string;
+  release_date: string;
+  poster_path: string | null;
+}

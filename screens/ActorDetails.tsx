@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
-import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
+import { FlatList, Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import { getActorInfo } from "../service/api";
-import { ActorInfo } from "../types/types";
+import { getActorInfo, getActorMovieCredits } from "../service/api";
+import { ActorInfo, MovieCredit } from "../types/types";
 
 export default function ActorDetails({route}: any){
     const [actorInfo, setActorInfo] = useState<ActorInfo>()
+    const [actorsFilms, setActorsFilms] = useState<MovieCredit[]>()
     const id = route.params.actorId
 
     useEffect(()=>{
@@ -16,7 +17,13 @@ export default function ActorDetails({route}: any){
         }
         fetchActorInfo()
     },[id])
-    
+     useEffect(()=>{
+        async function getCredits() {
+            const res = await getActorMovieCredits(id)
+            setActorsFilms(res)
+        }
+        getCredits()
+     },[id])  
 return <SafeAreaView>
     
     {actorInfo && <ScrollView style={styles.wrapper}>
@@ -27,6 +34,9 @@ return <SafeAreaView>
             
             <Text style={styles.actorDate}>{actorInfo.birthday}</Text>
             <Text style={styles.biography}>{actorInfo.biography}</Text>
+            {actorsFilms && <FlatList showsHorizontalScrollIndicator={false} horizontal data={actorsFilms} keyExtractor={film=>film.id.toString()}
+            renderItem={({item, index})=><Text>{item.character}</Text>}
+            />}
         </ScrollView>}
 </SafeAreaView>
 }
