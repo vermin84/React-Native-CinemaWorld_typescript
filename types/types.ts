@@ -10,4 +10,9 @@ export interface Movie {
   production?: Array<{id: number, logo_path: string, name: string, origin_country: string}>,
   releaseDate?: string
 }
-
+ export interface Actor {
+  id: number,
+  character: string,
+  name: string,
+  profile_path: string | null | undefined
+ }

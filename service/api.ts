@@ -1,7 +1,7 @@
 import axios from "axios"
 import { GOOGLE_API_KEY} from '@env'
 
-import { Movie } from "../types/types"
+import { Actor, Movie } from "../types/types"
 
  
 
@@ -10,6 +10,7 @@ const API_KEY = '7788e3316511533eb7faf40b8fe0a13a'
 const YOUTUBE_SEARCH_URL = "https://www.googleapis.com/youtube/v3/search";
 
 export const ImageUrl = 'https://image.tmdb.org/t/p/w500'
+export const ImageUrlsmall = 'https://image.tmdb.org/t/p/w300'
 //search trending movies on movie database
 const MovieUrl = 'https://api.themoviedb.org/3/movie/'
 export async function getMovies(){
@@ -63,5 +64,23 @@ export async function getYoutubeTrailerUrl(movieTitle: string): Promise<string |
   } catch (error) {
     console.error("Error fetching YouTube trailer:", error);
     return null;
+  }
+}
+
+
+
+export async function getMovieCast(movieId: string){
+   try {
+    const res = await axios.get(`https://api.themoviedb.org/3/movie/${movieId}?api_key=${API_KEY}&append_to_response=credits`);
+    return  res.data.credits.cast.slice(0, 20).map((actor:Actor) => ({
+  id: actor.id,
+  character: actor.character,
+  name: actor.name,
+  profile_path: actor.profile_path ? ImageUrlsmall + actor.profile_path : '', // пустая строка если нет фото
+}));
+    
+  } catch (error) {
+    console.error('Ошибка при получении списка актёров:', error);
+    throw error;
   }
 }

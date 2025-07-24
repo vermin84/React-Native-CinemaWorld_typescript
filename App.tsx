@@ -10,6 +10,7 @@ import MovieDetails from "./screens/MovieDetails";
 import CustomBottomTabBar from "./components/CustomBottomTabBar";
 import Favorite from "./screens/Favorie";
 import Search from "./screens/Search";
+import ActorDetails from "./screens/ActorDetails";
 
 const Stack = createNativeStackNavigator();
 
@@ -24,6 +25,7 @@ function StackNavigation(){
         >
           <Stack.Screen name="HomeScreen" component={Home} />
           <Stack.Screen name="MovieDetails" component={MovieDetails}/>
+          <Stack.Screen name="ActorDetails" component={ActorDetails}/>
         </Stack.Navigator>
 }
 
