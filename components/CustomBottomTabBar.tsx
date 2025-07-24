@@ -5,7 +5,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import TabBarButton from "./TabBarButton";
 const { width } = Dimensions.get('window')
-export default function CustomBottomTabBar({ state, navigation }){
+export default function CustomBottomTabBar({ state, navigation }: any){
     const insets = useSafeAreaInsets()
     const focusedRoute = state.routes[state.index]
     const active = focusedRoute['name']

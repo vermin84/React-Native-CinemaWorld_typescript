@@ -20,19 +20,23 @@ export default function TabBarButton({name, title, onPress,color,  active}: TabB
     const animatedFocus = useSharedValue(isFocused ? 1 : 0);
     const animatedProps = useAnimatedProps(() => {
         const color = interpolateColor(animatedFocus.value, [0, 1], ['gray', '#673ab7']);
+        
         return {
+            
             color,
-        } as any; // кастинг из-за типизации
+        } as any; 
     });
     
-    console.log(isFocused)
+    
     
     const animatedIconStyle = useAnimatedStyle(() => {
         const scale = 1 + 0.3 * animatedFocus.value; // увеличиваем на 30% если активна
         const color = interpolateColor(animatedFocus.value, [0, 1], ['gray', '#673ab7']);
+       
         return {
-            transform: [{ scale }],
+           transform: [{ scale }],
             color,
+            
         };
     });
     useEffect(() => {
@@ -45,17 +49,23 @@ export default function TabBarButton({name, title, onPress,color,  active}: TabB
         const color = interpolateColor(animatedFocus.value, [0, 1], ['gray', '#673ab7']);
         const fontSize = interpolate(animatedFocus.value, [0,1], [14, 20])
         return {
-        
+            
           fontWeight: isFocused ? 'bold' : 'normal',
           fontSize,
           color,
         };
       });
+      
+
+
+
     return <Pressable style={({pressed}: any)=>[styles.buttonWrapper,pressed && styles.pressed]} onPress={()=>onPress(title)}>
-        <AnimatedIcons animatedProps={
-            animatedProps
-        }  size={24} name={name} /*style={animatedIconStyle}*//>
-        <Animated.Text style={animatedTextStyle}>{title}</Animated.Text>
+        <Animated.Text style={animatedIconStyle}>
+        <AnimatedIcons  size={24} name={name}/>
+            </Animated.Text>
+           <Animated.Text style={animatedTextStyle}>
+           {title}
+            </Animated.Text> 
     </Pressable>
 }
 
@@ -71,7 +81,5 @@ const styles = StyleSheet.create({
         opacity: 0.6
     },
 
-    buttonTitle : {
-        //fontSize: 14
-    }
+   
 })
