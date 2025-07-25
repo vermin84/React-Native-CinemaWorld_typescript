@@ -125,9 +125,30 @@ export async function getActorMovieCredits(personId: number): Promise<MovieCredi
         //language: 'ru-RU',
       },
     });
-    // Возвращаем массив фильмов, где актёр был в составе кастинга
+    
     return response.data.cast;
   } catch (error) {
+    console.error('Ошибка при получении фильмографии актёра:', error);
+    throw error;
+  }
+}
+
+//search similar movies
+export async function getSimilarMovies(movieId: number){
+  try{
+    const res = await axios.get(`${MovieUrl}${movieId}/similar?api_key=${API_KEY}`)
+     return res.data.results.map((movie: any): Movie => ({
+      id: movie.id,
+      title: movie.title,
+      genres: [],              
+      rating: movie.vote_average,
+      overview: movie.overview,
+      poster: movie.poster_path,
+      production: [],          
+      releaseDate: movie.release_date,
+    }));
+
+  } catch(error){
     console.error('Ошибка при получении фильмографии актёра:', error);
     throw error;
   }

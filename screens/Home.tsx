@@ -45,7 +45,7 @@ fetchData()
   />
 ), [scrollX, navigateHandler]);
   return (
-    <SafeAreaView style={styles.wrapper}>
+    <SafeAreaView  style={styles.wrapper}>
       <View style={styles.wrapper}>
         {!isLoading && <BackdropLayer movies={movieList}  scrollX={scrollX}/>}
         {!isLoading && <Animated.FlatList initialNumToRender={3}maxToRenderPerBatch={5} 

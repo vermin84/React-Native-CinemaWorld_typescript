@@ -5,10 +5,12 @@ import { WebView } from 'react-native-webview';
 import YoutubePlayer from "react-native-youtube-iframe";
 
 
-import { getMovieById, getMovieCast, getYoutubeTrailerUrl, ImageUrl } from "../service/api";
+import { getMovieById, getMovieCast, getSimilarMovies, getYoutubeTrailerUrl, ImageUrl } from "../service/api";
 import { Actor, Movie } from "../types/types";
 import YoutubeVideo from "../components/YoutubeVideo";
 import ActorInfo from "../components/ActorInfo";
+import MovieCast from "../components/MovieCast";
+import SimilarMoviesList from "../components/SimilarMoviesList";
 
 const {width, height} = Dimensions.get('window')
 const IMAGE_WIDTH = width * 0.8
@@ -18,10 +20,22 @@ export default function MovieDetails({route, navigation}: any){
     const [movieData, setMovieData] = useState<Movie>()
     const [trailerUrl, setTrailerUrl] = useState<string | null>(null);
     const [cast, setCast] = useState<Actor[]>()
+    const [similarMovies, setSimilarMovies]= useState<Movie[]>()
     
     const actorDetailsHandler = useCallback((id: number) => {
   navigation.navigate('ActorDetails', { actorId: id });
 }, [navigation]);
+const similarMovieHandler = useCallback((id: number) => {
+  navigation.navigate('MovieDetails', id);
+}, [navigation]);
+    useEffect(()=>{
+        async function fetchSimilar(){
+            const res = await getSimilarMovies(id)
+            setSimilarMovies(res)
+        }
+        fetchSimilar()
+    },[id])
+
     useEffect(()=>{
         async function GetMovie(id:string   ) {
             const res = await getMovieById(id)
@@ -48,9 +62,11 @@ export default function MovieDetails({route, navigation}: any){
 
     }, [movieData])*/
 
-    const renderItem = useCallback(({item, index}: any)=><ActorInfo onPress={actorDetailsHandler} actorData={item}></ActorInfo>,[actorDetailsHandler])
-    return <SafeAreaView style={styles.wrapper}>
-        <ScrollView>
+    
+   
+   
+   return <SafeAreaView style={styles.wrapper}>
+        <ScrollView showsVerticalScrollIndicator={false}>
 
         {movieData &&<View>
 
@@ -65,12 +81,8 @@ export default function MovieDetails({route, navigation}: any){
                         </View>
                         {trailerUrl && <YoutubeVideo videoUrl={trailerUrl}/>}
                     </View>}
-          {cast && <View >
-            <FlatList contentContainerStyle={{paddingBottom: 15}}  getItemLayout={(cast, index) => (
-    { length: ITEM_WIDTH, offset: ITEM_WIDTH * index, index }
-  )} initialNumToRender={3}maxToRenderPerBatch={5} horizontal data={cast} keyExtractor={(item:Actor)=>item.id.toString()
-  } renderItem={renderItem}/>
-            </View>}          
+          {cast && <MovieCast onPress={actorDetailsHandler} cast={cast}/>} 
+            {similarMovies && <SimilarMoviesList similarMovies={similarMovies} onPress={similarMovieHandler}/>}          
         </ScrollView>
     </SafeAreaView>
 }
