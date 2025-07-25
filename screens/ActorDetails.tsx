@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { FlatList, Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -6,10 +6,14 @@ import { getActorInfo, getActorMovieCredits } from "../service/api";
 import { ActorInfo, MovieCredit } from "../types/types";
 import MoviePrewiev from "../components/MoviePrewiev";
 
-export default function ActorDetails({route}: any){
+export default function ActorDetails({route, navigation}: any){
     const [actorInfo, setActorInfo] = useState<ActorInfo>()
     const [actorsFilms, setActorsFilms] = useState<MovieCredit[]>()
     const id = route.params.actorId
+
+     const navigateHandler = useCallback((id: number) => {
+      navigation.navigate('MovieDetails', id);
+    }, [navigation]);
 
     useEffect(()=>{
         async function fetchActorInfo(){
@@ -26,7 +30,8 @@ export default function ActorDetails({route}: any){
         getCredits()
      },[id])  
 
-     console.log(actorsFilms?.[0])
+     const renderItem = useCallback(({item, index}: any)=><MoviePrewiev movieCredit={item} onPress={navigateHandler}/>,[navigateHandler])
+     
 return <SafeAreaView>
     
     {actorInfo && <ScrollView style={styles.wrapper}>
@@ -37,8 +42,8 @@ return <SafeAreaView>
             
             <Text style={styles.actorDate}>{actorInfo.birthday}</Text>
             <Text style={styles.biography}>{actorInfo.biography}</Text>
-            {actorsFilms && <FlatList showsHorizontalScrollIndicator={false} horizontal data={actorsFilms.slice(0,10)} keyExtractor={(film, index)=>index.toString()}
-            renderItem={({item})=><MoviePrewiev movieCredit={item } />}
+            {actorsFilms && <FlatList contentContainerStyle={{paddingBottom: 15}} showsHorizontalScrollIndicator={false} horizontal data={actorsFilms.slice(0,10)} keyExtractor={(film, index)=>index.toString()}
+            renderItem={renderItem}
             />}
         </ScrollView>}
 </SafeAreaView>

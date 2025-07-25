@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Dimensions, FlatList, Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { WebView } from 'react-native-webview';
@@ -6,7 +6,7 @@ import YoutubePlayer from "react-native-youtube-iframe";
 
 
 import { getMovieById, getMovieCast, getYoutubeTrailerUrl, ImageUrl } from "../service/api";
-import { Movie } from "../types/types";
+import { Actor, Movie } from "../types/types";
 import YoutubeVideo from "../components/YoutubeVideo";
 import ActorInfo from "../components/ActorInfo";
 
@@ -17,9 +17,9 @@ export default function MovieDetails({route, navigation}: any){
     const id = route.params
     const [movieData, setMovieData] = useState<Movie>()
     const [trailerUrl, setTrailerUrl] = useState<string | null>(null);
-    const [cast, setCast] = useState()
+    const [cast, setCast] = useState<Actor[]>()
     
-    const actorDetailsHandler = React.useCallback((id: number) => {
+    const actorDetailsHandler = useCallback((id: number) => {
   navigation.navigate('ActorDetails', { actorId: id });
 }, [navigation]);
     useEffect(()=>{
@@ -48,7 +48,7 @@ export default function MovieDetails({route, navigation}: any){
 
     }, [movieData])*/
 
-    
+    const renderItem = useCallback(({item, index}: any)=><ActorInfo onPress={actorDetailsHandler} actorData={item}></ActorInfo>,[actorDetailsHandler])
     return <SafeAreaView style={styles.wrapper}>
         <ScrollView>
 
@@ -65,10 +65,11 @@ export default function MovieDetails({route, navigation}: any){
                         </View>
                         {trailerUrl && <YoutubeVideo videoUrl={trailerUrl}/>}
                     </View>}
-          {cast && <View>
-            <FlatList  getItemLayout={(cast, index) => (
+          {cast && <View >
+            <FlatList contentContainerStyle={{paddingBottom: 15}}  getItemLayout={(cast, index) => (
     { length: ITEM_WIDTH, offset: ITEM_WIDTH * index, index }
-  )} initialNumToRender={3}maxToRenderPerBatch={5} horizontal data={cast} keyExtractor={item=>item.id} renderItem={({item, index})=><ActorInfo onPress={actorDetailsHandler} actorData={item}></ActorInfo>}/>
+  )} initialNumToRender={3}maxToRenderPerBatch={5} horizontal data={cast} keyExtractor={(item:Actor)=>item.id.toString()
+  } renderItem={renderItem}/>
             </View>}          
         </ScrollView>
     </SafeAreaView>
@@ -79,7 +80,7 @@ export default function MovieDetails({route, navigation}: any){
 const styles = StyleSheet.create({
     wrapper: {
         paddingHorizontal: 15,
-        paddingVertical: 10
+        paddingVertical: 10,
         
     },
     posterImage: {  

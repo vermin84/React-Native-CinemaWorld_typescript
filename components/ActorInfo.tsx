@@ -1,5 +1,5 @@
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
-import React, { useMemo } from "react";
+import React, { memo, useMemo } from "react";
 
 import { Actor } from "../types/types";
 
@@ -9,7 +9,7 @@ interface ActorInfoProps {
 
 }  
 
- const ActorInfo=React.memo( function ActorInfo({actorData, onPress}: ActorInfoProps){
+ const ActorInfo=memo( function ActorInfo({actorData, onPress}: ActorInfoProps){
     
     if(!actorData.profile_path) return null
     return<Pressable onPress={()=>onPress(actorData.id)} style={({pressed}: any) => [styles.wrapper, pressed && styles.pressed]}

@@ -5,10 +5,11 @@ import { ImageUrlsmall } from "../service/api";
 
 interface MoviePrewievProps {
   movieCredit: MovieCredit;
+  onPress: (id: number)=> void
 }
 
-export default  function MoviePrewiev({movieCredit} : MoviePrewievProps){
-        return <Pressable style={({pressed}:any)=>[styles.wrapper, pressed && styles.pressed]}>
+export default  function MoviePrewiev({movieCredit, onPress} : MoviePrewievProps){
+        return <Pressable onPress={()=>onPress(movieCredit.id)} style={({pressed}:any)=>[styles.wrapper, pressed && styles.pressed]}>
             <Text style={styles.titles}>{movieCredit.title}</Text>
             <Image style={styles.image} source={{uri: `${ImageUrlsmall}${movieCredit.poster_path}`}}/>
             <Text style={styles.titles}>{movieCredit.character}</Text>
