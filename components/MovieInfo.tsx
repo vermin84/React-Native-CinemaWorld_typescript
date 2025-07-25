@@ -28,7 +28,9 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         gap: 5
     },
-    pressed: {},
+    pressed: {
+        opacity: 0.6
+    },
     image: {
         width: 100,
         height: 100,

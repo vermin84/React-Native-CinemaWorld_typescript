@@ -10,9 +10,9 @@ interface MoviePrewievProps {
 
 export default  function MoviePrewiev({movieCredit, onPress} : MoviePrewievProps){
         return <Pressable onPress={()=>onPress(movieCredit.id)} style={({pressed}:any)=>[styles.wrapper, pressed && styles.pressed]}>
-            <Text style={styles.titles}>{movieCredit.title}</Text>
+            <Text numberOfLines={1} ellipsizeMode="tail" style={styles.titles}>{movieCredit.title}</Text>
             <Image style={styles.image} source={{uri: `${ImageUrlsmall}${movieCredit.poster_path}`}}/>
-            <Text style={styles.titles}>{movieCredit.character}</Text>
+            <Text numberOfLines={1} ellipsizeMode="tail" style={styles.titles}>{movieCredit.character}</Text>
         </Pressable>
 }
 
@@ -24,7 +24,8 @@ const styles = StyleSheet.create({
         padding:5,
         elevation: 5,
         backgroundColor: '#fff',
-        borderRadius: 8
+        borderRadius: 8,
+        width: 150
     },
     pressed: {
         opacity: 0.6
