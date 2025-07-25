@@ -1,5 +1,6 @@
 import { Dimensions, Image, Pressable, StyleSheet, Text, View } from "react-native";
 import Animated, { interpolate, useAnimatedStyle, useSharedValue } from "react-native-reanimated";
+import { memo } from "react";
 
 import { Movie } from "../types/types";
 import { ImageUrl } from "../service/api";
@@ -13,7 +14,7 @@ type Props = {
 const {width, height} = Dimensions.get('window')
 const    ITEM_SIZE = width*0.72 
 const SPACER_SIZE = (width- ITEM_SIZE) / 2
-export default function SliderMovie({ movie, index, scrollX, onPress }:Props){
+ function SliderMovie({ movie, index, scrollX, onPress }:Props){
     
     const inputRange =[
         (index-2)*ITEM_SIZE,
@@ -35,26 +36,28 @@ export default function SliderMovie({ movie, index, scrollX, onPress }:Props){
   if(!movie.poster) return <View style={{width: SPACER_SIZE}}></View>
     return    <Animated.View style={[styles.wrapper, animatedStyle]}>
 
-    <Pressable onPress={()=>onPress(+movie.id)} style={({pressed})=>[styles.imageWrapper, pressed && styles.pressed]}>
+      
+    <Pressable onPress={()=>onPress(+movie.id)} style={({pressed})=>[styles.shadow, pressed && styles.pressed]}>
+
         <Image style={styles.image} source={{uri: `${ImageUrl}${movie.poster}`}}/>
         <Text style={styles.titleText}>{movie.title}</Text>
         <View style={styles.ratingContainer}>
         <Text style={styles.rating}>{movie.rating?.toFixed(1)}</Text>
+      </View>
         
         
-            </View>
             
     </Pressable>
+            
     </Animated.View>
     
 }
 
+
+export default memo(SliderMovie)
 const styles = StyleSheet.create({
     wrapper: {width: ITEM_SIZE,
         padding: 15,
-        
-        overflow: 'hidden',
-        
         
     },
     
@@ -64,17 +67,22 @@ const styles = StyleSheet.create({
         opacity: 0.6,
        
     },
-    imageWrapper: {
-        padding: 20,
-        backgroundColor: 'rgba(255,255,255,0.6)',
-        borderRadius: 20,
-        marginHorizontal: 'auto',
-       
+    
+    shadow:{
+      borderRadius: 20,
+      alignItems:'center',
+      justifyContent: 'center',
+      
+      padding:20,
+       elevation: 15,
+      backgroundColor: 'rgba(255,255,255,0.95)',
+      
     },
     image: {
         height: 250,
         width: 200,
         borderRadius: 20
+
     },
     titleText: {
       fontSize: 18,

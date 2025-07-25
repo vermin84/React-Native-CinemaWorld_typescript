@@ -89,6 +89,7 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         marginHorizontal: 'auto',
         marginVertical: 10,
+        elevation: 5
         
     },
     title: {

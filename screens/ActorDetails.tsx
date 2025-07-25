@@ -66,7 +66,8 @@ const styles= StyleSheet.create({
         marginHorizontal: 'auto',
         resizeMode: 'cover',
         aspectRatio: 1 / 1,
-        borderRadius: 20
+        borderRadius: 20,
+         elevation: 5
     },
     biography: {
         fontSize: 16,

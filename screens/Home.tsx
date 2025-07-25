@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Dimensions, FlatList, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Animated, { useAnimatedScrollHandler, useSharedValue } from "react-native-reanimated";
@@ -33,14 +33,27 @@ const scrollHandler = useAnimatedScrollHandler({
      } 
 fetchData()
   },[])
-  function navigateHandler(id: number){
-    navigation.navigate('MovieDetails', id)
-  }
+  const navigateHandler = useCallback((id: number) => {
+  navigation.navigate('MovieDetails', id);
+}, [navigation]);
+  const renderItem = useCallback(({ item, index }: any) => (
+  <SliderMovie
+    movie={item}
+    index={index}
+    scrollX={scrollX}
+    onPress={navigateHandler}
+  />
+), [scrollX, navigateHandler]);
   return (
     <SafeAreaView style={styles.wrapper}>
       <View style={styles.wrapper}>
         {!isLoading && <BackdropLayer movies={movieList}  scrollX={scrollX}/>}
-        {!isLoading && <Animated.FlatList initialNumToRender={3}maxToRenderPerBatch={5} showsHorizontalScrollIndicator={false} style={styles.animatedFlatlist} scrollEventThrottle={16} onScroll={scrollHandler} decelerationRate={0} bounces={false} snapToInterval={ITEM_SIZE}  horizontal data={movieList} keyExtractor={item=> item.id} renderItem={({item, index})=><SliderMovie movie={item} onPress={navigateHandler}  scrollX={scrollX} index={index}/>}/>}
+        {!isLoading && <Animated.FlatList initialNumToRender={3}maxToRenderPerBatch={5} 
+        showsHorizontalScrollIndicator={false} style={styles.animatedFlatlist} 
+        overScrollMode="never"
+        scrollEventThrottle={16} onScroll={scrollHandler} decelerationRate={0} 
+        bounces={false} snapToInterval={ITEM_SIZE}  horizontal data={movieList} 
+        keyExtractor={item=> item.id} renderItem={renderItem}/>}
       </View>
         
     </SafeAreaView>

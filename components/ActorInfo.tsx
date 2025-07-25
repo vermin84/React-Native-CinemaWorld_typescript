@@ -30,8 +30,10 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     justifyContent: 'space-around',
     alignItems: 'center',
-    backgroundColor: 'red',
-    marginHorizontal: 10
+    backgroundColor: '#fff',
+    marginHorizontal: 10,
+    elevation: 5,
+    borderRadius: 8
     },
     pressed: {
         opacity: 0.6
@@ -40,7 +42,7 @@ const styles = StyleSheet.create({
         width: 100,
         height: 100,
         marginVertical: 5,
-        borderRadius: 5
+        borderRadius: 8
     },
     text: {
         textAlign: 'center',
