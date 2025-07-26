@@ -14,9 +14,10 @@ const ActorImage = 'https://image.tmdb.org/t/p/w500'
 export const ImageUrlsmall = 'https://image.tmdb.org/t/p/w185'
 const filmographyURL = 'https://api.themoviedb.org/3'
 //search trending movies on movie database
-const MovieUrl = 'https://api.themoviedb.org/3/movie/'
+const MovieUrl = 'https://api.themoviedb.org/3/movie'
+const SearchMovieUrl = 'https://api.themoviedb.org/3/search/movie'
 export async function getMovies(){
-    const res = await axios.get(`${MovieUrl}now_playing?api_key=${API_KEY}&page=1`)
+    const res = await axios.get(`${MovieUrl}/now_playing?api_key=${API_KEY}&page=1`)
     
     const movieList  = res.data.results.map((item: any) => {return {id: item.id, genres: item.genre_ids, title: item.title,backDrop: item.backdrop_path, rating: item.vote_average, poster: item.poster_path, overview: item.overview}})
     return movieList
@@ -24,7 +25,7 @@ export async function getMovies(){
 
 //search movie info by ID on movie database
 export async function getMovieById(id: string){
-    const res = await axios.get(`${MovieUrl}${id}?api_key=${API_KEY}`)
+    const res = await axios.get(`${MovieUrl}/${id}?api_key=${API_KEY}`)
     const movieInfo :Movie ={
         id : res.data.id,
         title :res.data.title,
@@ -136,7 +137,7 @@ export async function getActorMovieCredits(personId: number): Promise<MovieCredi
 //search similar movies
 export async function getSimilarMovies(movieId: number){
   try{
-    const res = await axios.get(`${MovieUrl}${movieId}/similar?api_key=${API_KEY}`)
+    const res = await axios.get(`${MovieUrl}/${movieId}/similar?api_key=${API_KEY}`)
      return res.data.results.map((movie: any): Movie => ({
       id: movie.id,
       title: movie.title,
@@ -152,4 +153,21 @@ export async function getSimilarMovies(movieId: number){
     console.error('Ошибка при получении фильмографии актёра:', error);
     throw error;
   }
+}
+
+
+//search movie by query
+
+export default async function searchMoviesByQuery(query: string){
+  const res = await axios.get(`${SearchMovieUrl}`,
+    {
+      params: {
+        api_key: API_KEY,
+        query: query,
+        //language: 'en-US', // или 'uk-UA', если нужно
+        page: 1,
+        include_adult: false,
+      }
+    })
+  return res.data.results
 }
