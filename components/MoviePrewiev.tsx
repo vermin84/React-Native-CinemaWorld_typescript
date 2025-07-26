@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
         elevation: 5,
         backgroundColor: '#fff',
         borderRadius: 8,
-        width: 150
+        width: 170
     },
     pressed: {
         opacity: 0.6

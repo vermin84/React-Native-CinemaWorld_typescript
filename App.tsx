@@ -4,6 +4,7 @@ import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 import Home from "./screens/Home";
 import MovieDetails from "./screens/MovieDetails";
@@ -11,6 +12,8 @@ import CustomBottomTabBar from "./components/CustomBottomTabBar";
 import Favorite from "./screens/Favorie";
 import Search from "./screens/Search";
 import ActorDetails from "./screens/ActorDetails";
+
+const queryClient = new QueryClient();
 
 const Stack = createNativeStackNavigator();
 
@@ -31,12 +34,14 @@ function StackNavigation(){
 
 export default function App() {
   return (
+    <QueryClientProvider client={queryClient}>
+
     <SafeAreaProvider>
       <NavigationContainer>
         <Tabs.Navigator 
         tabBar={(props) => <CustomBottomTabBar {...props } />}
         initialRouteName="Home"
-          screenOptions={{ headerShown: false }}>
+        screenOptions={{ headerShown: false }}>
           <Tabs.Screen name="Home" component={StackNavigation}/>
           <Tabs.Screen name="Favorite" component={Favorite}/>
           <Tabs.Screen name="Search" component={Search}/>
@@ -44,13 +49,14 @@ export default function App() {
         {/*<Stack.Navigator
           initialRouteName="Home"
           screenOptions={{ headerShown: false }}
-        >
+          >
           <Stack.Screen name="Home" component={Home} />
           <Stack.Screen name="MovieDetails" component={MovieDetails} />
-        </Stack.Navigator>*/}
+          </Stack.Navigator>*/}
         
       </NavigationContainer>
     </SafeAreaProvider>
+          </QueryClientProvider>
   );
 }
 

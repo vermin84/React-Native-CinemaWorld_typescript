@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Dimensions, FlatList, Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { WebView } from 'react-native-webview';
@@ -16,11 +16,20 @@ const {width, height} = Dimensions.get('window')
 const IMAGE_WIDTH = width * 0.8
 const ITEM_WIDTH = 170
 export default function MovieDetails({route, navigation}: any){
+    const scrollViewRef = useRef<ScrollView>(null);
+
     const id = route.params
     const [movieData, setMovieData] = useState<Movie>()
     const [trailerUrl, setTrailerUrl] = useState<string | null>(null);
     const [cast, setCast] = useState<Actor[]>()
     const [similarMovies, setSimilarMovies]= useState<Movie[]>()
+
+
+    useEffect(() => {
+    if (scrollViewRef.current) {
+      scrollViewRef.current.scrollTo({ y: 0, animated: false });
+    }
+  }, [id]);
     
     const actorDetailsHandler = useCallback((id: number) => {
   navigation.navigate('ActorDetails', { actorId: id });
@@ -66,7 +75,8 @@ const similarMovieHandler = useCallback((id: number) => {
    
    
    return <SafeAreaView style={styles.wrapper}>
-        <ScrollView showsVerticalScrollIndicator={false}>
+        <ScrollView ref={scrollViewRef}
+        keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false}>
 
         {movieData &&<View>
 
