@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import { Text, TextInput, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import searchMoviesByQuery from "../service/api";
+import {searchMoviesByQuery} from "../service/api";
+import { useQuerySearch } from "../useHooks/useQuerySearch";
 
 export default function Search(){
     const [query, setQuery]= useState('')
@@ -11,16 +12,9 @@ export default function Search(){
         setQuery(e )
         
     }
-    useEffect(()=>{
-        console.log(query)
-        async function fetchData(){
-            const res = await searchMoviesByQuery(query)
-            console.log(res.length)
-        }
-        fetchData()
-    },[query])
+   const { data: movies, isLoading, isError } = useQuerySearch(query);
     
-    
+    console.log(movies?.length)
     return <SafeAreaView>
         <View>
             <TextInput value={query} onChangeText={queryHandler} placeholder="Search movie..."/>

@@ -158,7 +158,7 @@ export async function getSimilarMovies(movieId: number){
 
 //search movie by query
 
-export default async function searchMoviesByQuery(query: string){
+export  async function searchMoviesByQuery(query: string){
   const res = await axios.get(`${SearchMovieUrl}`,
     {
       params: {
