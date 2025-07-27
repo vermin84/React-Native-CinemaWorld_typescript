@@ -169,5 +169,14 @@ export  async function searchMoviesByQuery(query: string){
         include_adult: false,
       }
     })
-  return res.data.results
+  return res.data.results.map((movie: any): Movie => ({
+      id: movie.id,
+      title: movie.title,
+      genres: [],              
+      rating: movie.vote_average,
+      overview: movie.overview,
+      poster: movie.poster_path,
+      production: [],          
+      releaseDate: movie.release_date,
+    }))
 }

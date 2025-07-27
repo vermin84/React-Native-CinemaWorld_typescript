@@ -12,25 +12,18 @@ import CustomBottomTabBar from "./components/CustomBottomTabBar";
 import Favorite from "./screens/Favorie";
 import Search from "./screens/Search";
 import ActorDetails from "./screens/ActorDetails";
+import SearchScreenNavigator from "./screens/navigators/SearchScreenNavigator";
+import HomeScreenNavigator from "./screens/navigators/HomeScreenNavigator";
 
 const queryClient = new QueryClient();
 
-const Stack = createNativeStackNavigator();
+
 
 const Tabs = createBottomTabNavigator()
 
 
 
-function StackNavigation(){
-  return <Stack.Navigator
-          initialRouteName="HomeScreen"
-          screenOptions={{ headerShown: false }}
-        >
-          <Stack.Screen name="HomeScreen" component={Home} />
-          <Stack.Screen name="MovieDetails" component={MovieDetails}/>
-          <Stack.Screen name="ActorDetails" component={ActorDetails}/>
-        </Stack.Navigator>
-}
+
 
 export default function App() {
   return (
@@ -42,17 +35,11 @@ export default function App() {
         tabBar={(props) => <CustomBottomTabBar {...props } />}
         initialRouteName="Home"
         screenOptions={{ headerShown: false }}>
-          <Tabs.Screen name="Home" component={StackNavigation}/>
+          <Tabs.Screen name="Home" component={HomeScreenNavigator}/>
+          <Tabs.Screen name="Search" component={SearchScreenNavigator}/>
           <Tabs.Screen name="Favorite" component={Favorite}/>
-          <Tabs.Screen name="Search" component={Search}/>
         </Tabs.Navigator>
-        {/*<Stack.Navigator
-          initialRouteName="Home"
-          screenOptions={{ headerShown: false }}
-          >
-          <Stack.Screen name="Home" component={Home} />
-          <Stack.Screen name="MovieDetails" component={MovieDetails} />
-          </Stack.Navigator>*/}
+        
         
       </NavigationContainer>
     </SafeAreaProvider>
