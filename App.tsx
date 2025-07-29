@@ -14,6 +14,7 @@ import Search from "./screens/Search";
 import ActorDetails from "./screens/ActorDetails";
 import SearchScreenNavigator from "./screens/navigators/SearchScreenNavigator";
 import HomeScreenNavigator from "./screens/navigators/HomeScreenNavigator";
+import { FavoriteContext, FavoriteContextProvider } from "./store/FavoriteContext";
 
 const queryClient = new QueryClient();
 
@@ -27,6 +28,8 @@ const Tabs = createBottomTabNavigator()
 
 export default function App() {
   return (
+    <FavoriteContextProvider>
+
     <QueryClientProvider client={queryClient}>
 
     <SafeAreaProvider>
@@ -44,6 +47,7 @@ export default function App() {
       </NavigationContainer>
     </SafeAreaProvider>
           </QueryClientProvider>
+          </FavoriteContextProvider>
   );
 }
 
