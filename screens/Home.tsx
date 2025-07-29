@@ -34,7 +34,7 @@ const scrollHandler = useAnimatedScrollHandler({
 fetchData()
   },[])
   const navigateHandler = useCallback((id: number) => {
-  navigation.navigate('MovieDetails', id);
+  navigation.navigate('MovieDetails', {id});
 }, [navigation]);
   const renderItem = useCallback(({ item, index }: any) => (
   <SliderMovie

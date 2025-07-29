@@ -17,7 +17,7 @@ const IMAGE_WIDTH = width * 0.8
 const ITEM_WIDTH = 170
 export default function MovieDetails({route, navigation}: any){
     const scrollViewRef = useRef<ScrollView>(null);
-    const id = route.params
+    const id = route.params.id
     
     const [movieData, setMovieData] = useState<Movie>()
     const [trailerUrl, setTrailerUrl] = useState<string | null>(null);
@@ -81,7 +81,10 @@ const similarMovieHandler = useCallback((id: number) => {
         {movieData &&<View>
 
                         <Text style={styles.title}>{movieData.title}</Text>
+                    
                         <Image style={styles.posterImage} source={{uri: `${ImageUrl}${movieData.poster}`}}/>
+
+                
                         <View style={styles.movieInfo}>
                             <Text>Release date: <Text>{movieData.releaseDate}</Text></Text>
                             <Text style={styles.ovirwiev}>{movieData.overview}</Text>    
@@ -112,9 +115,11 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         marginHorizontal: 'auto',
         marginVertical: 10,
+        
         elevation: 5
         
     },
+    
     title: {
         fontSize: 25,
         textAlign: 'center',

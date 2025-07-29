@@ -1,4 +1,4 @@
-import {  useCallback, useEffect, useState } from "react";
+import {  useCallback, useEffect, useRef, useState } from "react";
 import { FlatList, StyleSheet, Text, TextInput, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import debounce from 'lodash.debounce';
@@ -8,7 +8,7 @@ import { Movie } from "../types/types";
 import IconButton from "../components/IconButton";
 import TypingSearchList from "../components/TypingSearchList";
 import MovieInfo from "../components/MovieInfo";
-import { searchMoviesByQuery } from "../service/api";
+
 
 
 
@@ -16,22 +16,23 @@ export default function Search({navigation}: any){
     const [query, setQuery]= useState('')
     const [debouncedQuery, setDebouncedQuery] = useState('');
     const [searchResult, setSearchResult] = useState<Movie[]>([])
-    //const [movies, setMovies] =useState<Movie[]>([])
+    
     const [isSearching, setIsSearching]= useState(false)
+    const flatListRef = useRef<FlatList>(null)
+        useEffect(() => {
+      if(flatListRef.current) {
+        flatListRef.current.scrollToOffset({ offset: 0, animated: false });
+      }
+    }, [searchResult]);
     const navigateHandler = useCallback((id: number) => {
-      navigation.navigate('MovieDetails', id)
+      navigation.navigate('MovieDetails', {id})
+
     
     setIsSearching(false)
       setQuery('')
         setDebouncedQuery('')
     }, [navigation]);
-/*useEffect(()=>{
-    async function fetchData() {
-        const res = await searchMoviesByQuery(query)
-        setMovies(res)
-    }
-    fetchData()
-},[query])*/
+
     const debouncedSetQuery = useCallback(
     debounce((text: string) => {
       setDebouncedQuery(text);
@@ -63,9 +64,9 @@ export default function Search({navigation}: any){
            <IconButton size={34} onPress={onSubmitHandler} name="search" color="#000"/>
         </View>
         
-        {searchResult && <FlatList numColumns={2} initialNumToRender={7}
+        {searchResult && <FlatList ref={flatListRef} numColumns={2} initialNumToRender={7}
   maxToRenderPerBatch={5}
-  windowSize={2}
+  windowSize={5}
   removeClippedSubviews={true}  data={searchResult} keyExtractor={item=>item.id} renderItem={({item, index}: any)=><MovieInfo movie={item} onPress={navigateHandler}/>}/>}
         {isSearching && movies
          &&<TypingSearchList onPress={navigateHandler} dataList={movies}/>}

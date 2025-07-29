@@ -12,7 +12,7 @@ export default function ActorDetails({route, navigation}: any){
     const id = route.params.actorId
 
      const navigateHandler = useCallback((id: number) => {
-      navigation.navigate('MovieDetails', id);
+      navigation.navigate('MovieDetails', {id});
     }, [navigation]);
 
     useEffect(()=>{
