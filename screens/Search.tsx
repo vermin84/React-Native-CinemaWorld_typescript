@@ -1,4 +1,4 @@
-import {  useCallback, useEffect, useRef, useState } from "react";
+import {  useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { FlatList, StyleSheet, Text, TextInput, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import debounce from 'lodash.debounce';
@@ -33,10 +33,10 @@ export default function Search({navigation}: any){
         setDebouncedQuery('')
     }, [navigation]);
 
-    const debouncedSetQuery = useCallback(
-    debounce((text: string) => {
-      setDebouncedQuery(text);
-    }, 500), // 500 мс — настраиваемо
+    const debouncedSetQuery = useMemo(() => 
+  debounce((text: string) => {
+    setDebouncedQuery(text);
+  }, 500), // 500 мс — настраиваемо
     []
   );
 
