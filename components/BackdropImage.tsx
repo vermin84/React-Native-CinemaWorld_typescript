@@ -19,7 +19,7 @@ export default function BackdropImage({ item, scrollX, index }: Props) {
     if (!item.backDrop) return { opacity: 0 }; // Возвращаем объект!
     const opacity = interpolate(
       scrollX.value,
-      [(index - 2) * ITEM_SIZE, (index-1) * ITEM_SIZE, index  * ITEM_SIZE],
+      [(index -1 ) * ITEM_SIZE, (index) * ITEM_SIZE, (index+1)  * ITEM_SIZE],
       [0, 1, 0],
       'clamp'
     );

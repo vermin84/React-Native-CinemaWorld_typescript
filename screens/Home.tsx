@@ -4,15 +4,17 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import Animated, { useAnimatedScrollHandler, useSharedValue } from "react-native-reanimated";
 
 
-import { getMovies } from "../service/api";
-import { Movie } from "../types/types";
+
 import SliderMovie from "../components/SliderMovie";
 import BackdropLayer from "../components/BackdropLayer";
+import { useNowPlayingMovies } from "../useHooks/useNowPlayingMovies";
 
 export default function Home({navigation}: any) {
-  const [movieList, setMovieList]= useState<Movie[]> ([])
   
-  const [isLoading, setIsLoading] = useState(true)
+  const {data: movieListRaw=[], isLoading} = useNowPlayingMovies()
+
+  const movieList = [{ id: 'left-spacer' }, ...movieListRaw, { id: 'right-spacer' }];
+  
   const {width} = Dimensions.get('window')
    const    ITEM_SIZE = width*0.72 
    const scrollX = useSharedValue(0);
@@ -23,16 +25,7 @@ const scrollHandler = useAnimatedScrollHandler({
     
   },
 });
-  useEffect(()=>{
-          async function fetchData() {
-        setIsLoading(true)
-        const res = await getMovies()
-        
-        setMovieList([{id: 'left-spacer'},...res, {id: 'right-spacer'}])
-        setIsLoading(false)
-     } 
-fetchData()
-  },[])
+ 
   const navigateHandler = useCallback((id: number) => {
   navigation.navigate('MovieDetails', {id});
 }, [navigation]);
@@ -47,7 +40,7 @@ fetchData()
   return (
     <SafeAreaView  style={styles.wrapper}>
       <View style={styles.wrapper}>
-        {!isLoading && <BackdropLayer movies={movieList}  scrollX={scrollX}/>}
+        {!isLoading && <BackdropLayer movies={movieListRaw}  scrollX={scrollX}/>}
         {!isLoading && <Animated.FlatList initialNumToRender={3}maxToRenderPerBatch={5} 
         showsHorizontalScrollIndicator={false} style={styles.animatedFlatlist} 
         overScrollMode="never"
