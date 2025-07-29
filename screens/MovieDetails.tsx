@@ -17,8 +17,8 @@ const IMAGE_WIDTH = width * 0.8
 const ITEM_WIDTH = 170
 export default function MovieDetails({route, navigation}: any){
     const scrollViewRef = useRef<ScrollView>(null);
-
     const id = route.params
+    
     const [movieData, setMovieData] = useState<Movie>()
     const [trailerUrl, setTrailerUrl] = useState<string | null>(null);
     const [cast, setCast] = useState<Actor[]>()

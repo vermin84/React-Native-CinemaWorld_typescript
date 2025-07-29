@@ -10,32 +10,28 @@ import TypingSearchList from "../components/TypingSearchList";
 import MovieInfo from "../components/MovieInfo";
 import { searchMoviesByQuery } from "../service/api";
 
-const MOCK_MOVIES: Movie[] = [
-  { id: 1, title: 'Test Movie', poster: '...', rating: 8.2 },
-  { id: 2, title: 'Another One', poster: '...', rating: 7.4 },
-  // ...
-];
+
 
 export default function Search({navigation}: any){
     const [query, setQuery]= useState('')
     const [debouncedQuery, setDebouncedQuery] = useState('');
     const [searchResult, setSearchResult] = useState<Movie[]>([])
-    const [movies, setMovies] =useState<Movie[]>([])
+    //const [movies, setMovies] =useState<Movie[]>([])
     const [isSearching, setIsSearching]= useState(false)
     const navigateHandler = useCallback((id: number) => {
-      navigation.navigate('MovieDetails', {id})
-    console.log('press')
+      navigation.navigate('MovieDetails', id)
+    
     setIsSearching(false)
-      //setQuery('')
-        //setDebouncedQuery('')
+      setQuery('')
+        setDebouncedQuery('')
     }, [navigation]);
-useEffect(()=>{
+/*useEffect(()=>{
     async function fetchData() {
         const res = await searchMoviesByQuery(query)
         setMovies(res)
     }
     fetchData()
-},[query])
+},[query])*/
     const debouncedSetQuery = useCallback(
     debounce((text: string) => {
       setDebouncedQuery(text);
@@ -49,13 +45,13 @@ useEffect(()=>{
     setQuery(text);
     debouncedSetQuery(text);
   }
-   //const { data: movies, isLoading, isError } = useQuerySearch(debouncedQuery);
+   const { data: movies, isLoading, isError } = useQuerySearch(debouncedQuery);
     
     function onSubmitHandler(){
         if(query&& movies){
             setSearchResult(movies)
-            //setQuery('')
-            //setDebouncedQuery('')
+            setQuery('')
+            setDebouncedQuery('')
             setIsSearching(false)
         }
     }
@@ -71,8 +67,8 @@ useEffect(()=>{
   maxToRenderPerBatch={2}
   windowSize={2}
   removeClippedSubviews={true}  horizontal data={searchResult} keyExtractor={item=>item.id} renderItem={({item, index}: any)=><MovieInfo movie={item} onPress={navigateHandler}/>}/>}
-        {/*isSearching && movies
-         &&<TypingSearchList onPress={navigateHandler} dataList={movies}/>*/}
+        {isSearching && movies
+         &&<TypingSearchList onPress={navigateHandler} dataList={movies}/>}
     </SafeAreaView>
 }
 
@@ -81,7 +77,7 @@ const styles=StyleSheet.create({
         paddingVertical: 5,
         paddingHorizontal: 10,
         flex: 1,
-        backgroundColor: 'red'
+        
     },
     inputWrapper: {
         flexDirection: 'row',
