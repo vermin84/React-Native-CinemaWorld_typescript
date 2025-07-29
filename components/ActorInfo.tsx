@@ -1,5 +1,6 @@
-import { Image, Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 import React, { memo, useMemo } from "react";
+import { Image } from 'expo-image';
 
 import { Actor } from "../types/types";
 

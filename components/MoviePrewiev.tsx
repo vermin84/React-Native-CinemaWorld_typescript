@@ -1,4 +1,5 @@
-import { Image, Pressable, StyleSheet, Text } from "react-native";
+import {  Pressable, StyleSheet, Text } from "react-native";
+import { Image } from 'expo-image';
 
 import { MovieCredit } from "../types/types";
 import { ImageUrlsmall } from "../service/api";

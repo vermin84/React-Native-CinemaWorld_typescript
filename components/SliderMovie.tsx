@@ -1,6 +1,7 @@
-import { Dimensions, Image, Pressable, StyleSheet, Text, View } from "react-native";
+import { Dimensions, Pressable, StyleSheet, Text, View } from "react-native";
 import Animated, { interpolate, useAnimatedStyle, useSharedValue } from "react-native-reanimated";
 import { memo } from "react";
+import { Image } from 'expo-image';
 
 import { Movie } from "../types/types";
 import { ImageUrl } from "../service/api";

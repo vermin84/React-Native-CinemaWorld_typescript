@@ -63,10 +63,10 @@ export default function Search({navigation}: any){
            <IconButton size={34} onPress={onSubmitHandler} name="search" color="#000"/>
         </View>
         
-        {searchResult && <FlatList initialNumToRender={5}
-  maxToRenderPerBatch={2}
+        {searchResult && <FlatList numColumns={2} initialNumToRender={7}
+  maxToRenderPerBatch={5}
   windowSize={2}
-  removeClippedSubviews={true}  horizontal data={searchResult} keyExtractor={item=>item.id} renderItem={({item, index}: any)=><MovieInfo movie={item} onPress={navigateHandler}/>}/>}
+  removeClippedSubviews={true}  data={searchResult} keyExtractor={item=>item.id} renderItem={({item, index}: any)=><MovieInfo movie={item} onPress={navigateHandler}/>}/>}
         {isSearching && movies
          &&<TypingSearchList onPress={navigateHandler} dataList={movies}/>}
     </SafeAreaView>

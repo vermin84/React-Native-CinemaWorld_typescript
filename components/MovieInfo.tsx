@@ -1,5 +1,6 @@
-import { Image, Pressable, StyleSheet, Text } from "react-native";
+import {  Pressable, StyleSheet, Text } from "react-native";
 import { memo } from "react";
+import { Image } from 'expo-image';
 
 import { Movie } from "../types/types";
 import { ImageUrlsmall } from "../service/api";
@@ -12,7 +13,7 @@ interface MovieInfo{
 const MovieInfo= memo( function MovieInfo({movie, onPress}: MovieInfo){
 
     return<Pressable style={({pressed})=>[styles.wrapper, pressed && styles.pressed]} onPress={() => {
-  console.log('pressed', movie.id);
+  
   onPress(+movie.id);
 }}>
         <Text numberOfLines={1} ellipsizeMode="tail">{movie.title}</Text>
@@ -25,8 +26,8 @@ const styles = StyleSheet.create({
     wrapper: {
         width:150,
         padding: 10,
-        marginHorizontal: 10,
-        backgroundColor: 'green',
+        margin: 10,
+        backgroundColor: '#fff',
         elevation: 5,
         borderRadius: 8,
         alignItems: 'center',
