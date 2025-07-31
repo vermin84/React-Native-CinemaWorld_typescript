@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { Dimensions, FlatList, Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { WebView } from 'react-native-webview';
@@ -12,6 +12,9 @@ import SimilarMoviesList from "../components/SimilarMoviesList";
 import { useSimilarMovies } from "../useHooks/useSimilarMovies";
 import { useMovieData } from "../useHooks/useMovieData";
 import { useMovieCast } from "../useHooks/useMovieCast";
+import { FavoriteContext } from "../store/FavoriteContext";
+import AddFavoriteButton from "../components/AddFavorite";
+
 
 const {width, height} = Dimensions.get('window')
 const IMAGE_WIDTH = width * 0.8
@@ -20,13 +23,15 @@ export default function MovieDetails({route, navigation}: any){
     const scrollViewRef = useRef<ScrollView>(null);
     const id = route.params.id
     
+    const ctx = useContext(FavoriteContext)
+
     
     const [trailerUrl, setTrailerUrl] = useState<string | null>(null);
     
     const {data: cast, isLoading: isCastLoading} = useMovieCast(id)
     const {data: movieData, isLoading: isMovieLoading}= useMovieData(id)
     const {data: similarMovies, isLoading: isSimilarLoading} = useSimilarMovies(id)
-
+    const isFavorite = !!ctx?.favorites.includes(id)
     useEffect(() => {
     if (scrollViewRef.current) {
       scrollViewRef.current.scrollTo({ y: 0, animated: false });
@@ -56,7 +61,10 @@ const similarMovieHandler = useCallback((id: number) => {
     }, [movieData])*/
 
     
-   
+   function addToFavoriteHandler(id: number){
+        
+        ctx?.favoriteToggler(id)
+   }
    
    return <SafeAreaView style={styles.wrapper}>
         <ScrollView ref={scrollViewRef}
@@ -65,8 +73,10 @@ const similarMovieHandler = useCallback((id: number) => {
         {movieData &&<View>
 
                         <Text style={styles.title}>{movieData.title}</Text>
-                    
+                    <View style={styles.posterWrapper}>
+                        <AddFavoriteButton onPress={()=>addToFavoriteHandler(id)} isFavorite={isFavorite}/>
                         <Image style={styles.posterImage} source={{uri: `${ImageUrl}${movieData.poster}`}}/>
+                    </View>
 
                 
                         <View style={styles.movieInfo}>
@@ -92,14 +102,16 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
         
     },
+    posterWrapper: {
+        position: 'relative',
+  width: IMAGE_WIDTH,
+  aspectRatio: 1 / 1.3,
+  alignSelf: 'center',
+    },
     posterImage: {  
-        width: IMAGE_WIDTH,
-        aspectRatio: 1 / 1.3,
-        maxWidth: 300,
+        width: '100%',
+        height: '100%',
         borderRadius: 20,
-        marginHorizontal: 'auto',
-        marginVertical: 10,
-        
         elevation: 5
         
     },
