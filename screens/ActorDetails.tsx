@@ -1,34 +1,24 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback } from "react";
 import { FlatList, Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import { getActorInfo, getActorMovieCredits } from "../service/api";
-import { ActorInfo, MovieCredit } from "../types/types";
+
 import MoviePrewiev from "../components/MoviePrewiev";
+import { useGetActorInfo } from "../useHooks/useGetActorInfo";
+import { useActorCredits } from "../useHooks/useActorCtedits";
 
 export default function ActorDetails({route, navigation}: any){
-    const [actorInfo, setActorInfo] = useState<ActorInfo>()
-    const [actorsFilms, setActorsFilms] = useState<MovieCredit[]>()
+   
+    
     const id = route.params.actorId
-
+    const {data: actorInfo,isLoading: isInfiLoading} = useGetActorInfo(id)
+    const {data: actorsFilms, isLoading: isCreditsLoading} = useActorCredits(id)
      const navigateHandler = useCallback((id: number) => {
       navigation.navigate('MovieDetails', {id});
     }, [navigation]);
 
-    useEffect(()=>{
-        async function fetchActorInfo(){
-            const res = await getActorInfo(id)
-            setActorInfo(res)
-        }
-        fetchActorInfo()
-    },[id])
-     useEffect(()=>{
-        async function getCredits() {
-            const res = await getActorMovieCredits(id)
-            setActorsFilms(res)
-        }
-        getCredits()
-     },[id])  
+   
+   
 
      const renderItem = useCallback(({item, index}: any)=><MoviePrewiev movieCredit={item} onPress={navigateHandler}/>,[navigateHandler])
      

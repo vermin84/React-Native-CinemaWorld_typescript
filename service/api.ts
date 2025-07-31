@@ -24,7 +24,7 @@ export async function getMovies(){
 }
 
 //search movie info by ID on movie database
-export async function getMovieById(id: string){
+export async function getMovieById(id: number){
     const res = await axios.get(`${MovieUrl}/${id}?api_key=${API_KEY}`)
     const movieInfo :Movie ={
         id : res.data.id,
@@ -72,7 +72,7 @@ export async function getYoutubeTrailerUrl(movieTitle: string): Promise<string |
 
  //search actors from movie by movie id 
 
-export async function getMovieCast(movieId: string){
+export async function getMovieCast(movieId: number){
    try {
     const res = await axios.get(`https://api.themoviedb.org/3/movie/${movieId}?api_key=${API_KEY}&append_to_response=credits`);
     return  res.data.credits.cast.slice(0, 20).map((actor:Actor) => ({

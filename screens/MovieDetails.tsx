@@ -5,12 +5,13 @@ import { WebView } from 'react-native-webview';
 import YoutubePlayer from "react-native-youtube-iframe";
 
 
-import { getMovieById, getMovieCast, getSimilarMovies, getYoutubeTrailerUrl, ImageUrl } from "../service/api";
-import { Actor, Movie } from "../types/types";
+import {  ImageUrl } from "../service/api";
 import YoutubeVideo from "../components/YoutubeVideo";
-import ActorInfo from "../components/ActorInfo";
 import MovieCast from "../components/MovieCast";
 import SimilarMoviesList from "../components/SimilarMoviesList";
+import { useSimilarMovies } from "../useHooks/useSimilarMovies";
+import { useMovieData } from "../useHooks/useMovieData";
+import { useMovieCast } from "../useHooks/useMovieCast";
 
 const {width, height} = Dimensions.get('window')
 const IMAGE_WIDTH = width * 0.8
@@ -19,11 +20,12 @@ export default function MovieDetails({route, navigation}: any){
     const scrollViewRef = useRef<ScrollView>(null);
     const id = route.params.id
     
-    const [movieData, setMovieData] = useState<Movie>()
+    
     const [trailerUrl, setTrailerUrl] = useState<string | null>(null);
-    const [cast, setCast] = useState<Actor[]>()
-    const [similarMovies, setSimilarMovies]= useState<Movie[]>()
-
+    
+    const {data: cast, isLoading: isCastLoading} = useMovieCast(id)
+    const {data: movieData, isLoading: isMovieLoading}= useMovieData(id)
+    const {data: similarMovies, isLoading: isSimilarLoading} = useSimilarMovies(id)
 
     useEffect(() => {
     if (scrollViewRef.current) {
@@ -37,29 +39,11 @@ export default function MovieDetails({route, navigation}: any){
 const similarMovieHandler = useCallback((id: number) => {
   navigation.navigate('MovieDetails', id);
 }, [navigation]);
-    useEffect(()=>{
-        async function fetchSimilar(){
-            const res = await getSimilarMovies(id)
-            setSimilarMovies(res)
-        }
-        fetchSimilar()
-    },[id])
+   
 
-    useEffect(()=>{
-        async function GetMovie(id:string   ) {
-            const res = await getMovieById(id)
-           
-            setMovieData(res)
-        }
-        GetMovie(id)
-    },[id])
-    useEffect(()=>{
-        async function fetchCredits(){
-            const res = await getMovieCast(id)
-            setCast(res)
-         }
-         fetchCredits()
-    },[id])
+
+    
+    
   /*  useEffect(()=>{
         async function fetchTrailer() {
             if (!movieData?.title) return

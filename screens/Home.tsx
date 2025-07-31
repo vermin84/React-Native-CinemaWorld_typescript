@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { Dimensions, FlatList, StyleSheet, Text, View } from "react-native";
+import React, { useCallback } from "react";
+import { Dimensions, StyleSheet,  View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Animated, { useAnimatedScrollHandler, useSharedValue } from "react-native-reanimated";
 
@@ -46,7 +46,7 @@ const scrollHandler = useAnimatedScrollHandler({
         overScrollMode="never"
         scrollEventThrottle={16} onScroll={scrollHandler} decelerationRate={0} 
         bounces={false} snapToInterval={ITEM_SIZE}  horizontal data={movieList} 
-        keyExtractor={item=> item.id} renderItem={renderItem}/>}
+        keyExtractor={item=> item.id.toString()} renderItem={renderItem}/>}
       </View>
         
     </SafeAreaView>
