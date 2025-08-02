@@ -6,19 +6,13 @@ import { FavoriteContext } from "../store/FavoriteContext";
 import { Movie } from "../types/types";
 import { getMoviesById } from "../service/api";
 import MovieInfo from "../components/MovieInfo";
+import { useFavoriteMovies } from "../useHooks/useFavoriteMovies";
 
 export default function Favorite({navigation}: any){
-    const [movies, setMovies] = useState<Movie[]>()
+    //const [movies, setMovies] = useState<Movie[]>()
     const ctx = useContext(FavoriteContext)
-
-    useEffect(()=>{
-        async function fetchData(){
-            
-            const res = await getMoviesById(ctx?.favorites)
-            setMovies(res)
-        }
-        fetchData()
-    },[ctx?.favorites])
+    const {data: movies, isLoading: isMoviesLoading} = useFavoriteMovies(ctx?.favorites)
+    
 
     const navigateHandler= useCallback((id: number) => {
       navigation.navigate('MovieDetails', {id});
