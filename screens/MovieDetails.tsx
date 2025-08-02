@@ -39,10 +39,10 @@ export default function MovieDetails({route, navigation}: any){
   }, [id]);
     
     const actorDetailsHandler = useCallback((id: number) => {
-  navigation.navigate('ActorDetails', { actorId: id });
+  navigation.navigate('ActorDetails', {id });
 }, [navigation]);
 const similarMovieHandler = useCallback((id: number) => {
-  navigation.navigate('MovieDetails', id);
+  navigation.navigate('MovieDetails', {id});
 }, [navigation]);
    
 

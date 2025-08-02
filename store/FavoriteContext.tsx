@@ -6,9 +6,9 @@ import { Movie } from "../types/types";
 interface FavoriteContextType {
   favorites: number[];
   
-  /*addFavorite: (movie: Movie) => void;
-  removeFavorite: (movieId: number) => void;*/
-  favoriteToggler: (id: number)=> void
+  favoriteActors: number[],
+  favoriteToggler: (id: number)=> void,
+  favoriteActorToggler: (id: number)=> void
 }
 
 interface FavoriteContextProviderProps {
@@ -19,6 +19,7 @@ export const FavoriteContext = createContext<FavoriteContextType | undefined>(un
 
 export function FavoriteContextProvider({ children }: FavoriteContextProviderProps) {
   const [favorites, setFavorites] = useState<number[]>([]);
+   const [favoriteActors, setFavoriteActors] = useState<number[]>([]);
 
 function favoriteToggler(id: number){
   const isFavorite = favorites.includes(id)
@@ -31,19 +32,28 @@ function favoriteToggler(id: number){
 
 }
 
- /* const addFavorite = (movie: Movie) => {
-    setFavorites((prev) => [...prev, movie]);
-  };
+function favoriteActorToggler(id: number){
+  
+  const isFavorite = favoriteActors.includes(id)
+  
+  if (isFavorite){
+    setFavoriteActors(prev=>prev.filter(item => item !== id))
+  }
+  else {
+    setFavoriteActors(prev=>[...prev, id])
+  }
 
-  const removeFavorite = (movieId: number) => {
-    setFavorites((prev) => prev.filter((m) => +m.id !== +movieId));
-  };
-*/
+}
+
+
+
+ 
   const value: FavoriteContextType = {
+    favoriteActors,
     favorites,
-    favoriteToggler
-    /*addFavorite,
-    removeFavorite,*/
+    favoriteToggler,
+    favoriteActorToggler,
+    
   };
 
   return (

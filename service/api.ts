@@ -184,14 +184,29 @@ export  async function searchMoviesByQuery(query: string){
 
 
 //search movies by id for favorite list
-export async function getMoviesById(movies:number[]| undefined){
-  if (movies === undefined) return
+export async function getMoviesById(movies:number[]):Promise<Movie[]>{
+
   const promises = movies.map(async (movieId) => {
     const data = await getMovieById(movieId);
     return data;
   });
   const results = await Promise.all(promises);
   const filtered = results.filter((data): data is Movie => !!data); // фильтр для исключения undefined/null
+  
+  return filtered;
+}
+
+
+//favorite actors info
+
+export async function getFavoriteActorsByIds(actors: number[]):Promise<ActorInfo[]>{
+  
+  const promises = actors.map(async (actorId) => {
+    const data = await getActorInfo(actorId);
+    return data;
+  });
+  const results = await Promise.all(promises);
+  const filtered = results.filter((data): data is ActorInfo => !!data); // фильтр для исключения undefined/null
   
   return filtered;
 }
