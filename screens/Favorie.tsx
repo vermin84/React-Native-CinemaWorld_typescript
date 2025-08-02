@@ -8,6 +8,7 @@ import { getMoviesById } from "../service/api";
 import MovieInfo from "../components/MovieInfo";
 import { useFavoriteMovies } from "../useHooks/useFavoriteMovies";
 import { useFavoriteActors } from "../useHooks/useFavoriteActors";
+import FavoriteActorCard from "../components/FavoriteActorCard";
 
 
 
@@ -26,16 +27,14 @@ export default function Favorite({navigation}: any){
     }, [navigation]);
     
     const renderMovieItem: ListRenderItem<Movie> = useCallback(({item, index})=><MovieInfo movie={item} onPress={navigateMovieHandler} />, [navigateMovieHandler])
-    const renderActorItem: ListRenderItem<ActorInfo> = useCallback(({item, index})=><View><Text>{item.name}</Text>
-  
-</View> 
-      , [])
+    const renderActorItem: ListRenderItem<ActorInfo> = useCallback(({item, index})=><FavoriteActorCard actor={item} onPress={navigateActorHandler}/>
+      , [navigateActorHandler])
     return <SafeAreaView><Text>Favorite</Text>
     {!isMoviesLoading &&<View>
-        <FlatList data={movies} keyExtractor={item=>item.id.toString()} renderItem={renderMovieItem}/>
+        <FlatList horizontal data={movies} keyExtractor={item=>item.id.toString()} renderItem={renderMovieItem}/>
     </View>}
     {!isActorsLoading &&< View>
-        <FlatList data={actors} keyExtractor={item=>item.id.toString()} renderItem={renderActorItem}/>
+        <FlatList horizontal data={actors} keyExtractor={item=>item.id.toString()} renderItem={renderActorItem}/>
     </View>}
     </SafeAreaView>
 }
