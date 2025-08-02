@@ -15,6 +15,7 @@ import ActorDetails from "./screens/ActorDetails";
 import SearchScreenNavigator from "./screens/navigators/SearchScreenNavigator";
 import HomeScreenNavigator from "./screens/navigators/HomeScreenNavigator";
 import { FavoriteContext, FavoriteContextProvider } from "./store/FavoriteContext";
+import FavoriteScreenNavigator from "./screens/navigators/FavoriteScreenNavigation";
 
 const queryClient = new QueryClient();
 
@@ -40,7 +41,7 @@ export default function App() {
         screenOptions={{ headerShown: false }}>
           <Tabs.Screen name="Home" component={HomeScreenNavigator}/>
           <Tabs.Screen name="Search" component={SearchScreenNavigator}/>
-          <Tabs.Screen name="Favorite" component={Favorite}/>
+          <Tabs.Screen name="Favorite" component={FavoriteScreenNavigator}/>
         </Tabs.Navigator>
         
         

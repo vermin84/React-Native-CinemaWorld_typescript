@@ -180,3 +180,18 @@ export  async function searchMoviesByQuery(query: string){
       releaseDate: movie.release_date,
     }))
 }
+
+
+
+//search movies by id for favorite list
+export async function getMoviesById(movies:number[]| undefined){
+  if (movies === undefined) return
+  const promises = movies.map(async (movieId) => {
+    const data = await getMovieById(movieId);
+    return data;
+  });
+  const results = await Promise.all(promises);
+  const filtered = results.filter((data): data is Movie => !!data); // фильтр для исключения undefined/null
+  
+  return filtered;
+}

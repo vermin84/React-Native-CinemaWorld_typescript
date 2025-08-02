@@ -23,7 +23,6 @@ const renderSimilarItem = useCallback(({item, index}: any)=><MovieInfo movie={it
 return <View >
             <FlatList ref={flatListRef} showsHorizontalScrollIndicator={false} contentContainerStyle={{paddingBottom: 15}}  getItemLayout={(cast, index) => (
     { length: ITEM_WIDTH, offset: ITEM_WIDTH * index, index }
-  )} initialNumToRender={3}maxToRenderPerBatch={5} horizontal data={similarMovies} keyExtractor={(item:Movie)=>item.id
-  } renderItem={renderSimilarItem}/>
+  )} initialNumToRender={3}maxToRenderPerBatch={5} horizontal data={similarMovies} keyExtractor={(item:Movie)=>item.id.toString()} renderItem={renderSimilarItem}/>
             </View>
 }
