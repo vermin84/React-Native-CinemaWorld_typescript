@@ -1,5 +1,5 @@
 import { useCallback, useContext, useEffect, useState } from "react";
-import { FlatList, ListRenderItem, Text, View } from "react-native";
+import { FlatList, ListRenderItem, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { FavoriteContext } from "../store/FavoriteContext";
@@ -29,7 +29,7 @@ export default function Favorite({navigation}: any){
     const renderMovieItem: ListRenderItem<Movie> = useCallback(({item, index})=><MovieInfo movie={item} onPress={navigateMovieHandler} />, [navigateMovieHandler])
     const renderActorItem: ListRenderItem<ActorInfo> = useCallback(({item, index})=><FavoriteActorCard actor={item} onPress={navigateActorHandler}/>
       , [navigateActorHandler])
-    return <SafeAreaView><Text>Favorite</Text>
+    return <SafeAreaView><Text style={styles.mainHeader}>Favorite</Text>
     {!isMoviesLoading &&<View>
         <FlatList horizontal data={movies} keyExtractor={item=>item.id.toString()} renderItem={renderMovieItem}/>
     </View>}
@@ -38,3 +38,11 @@ export default function Favorite({navigation}: any){
     </View>}
     </SafeAreaView>
 }
+
+const styles = StyleSheet.create({
+  mainHeader: {
+    fontSize: 32,
+    textAlign:'center',
+    marginVertical: 15
+  }
+})
