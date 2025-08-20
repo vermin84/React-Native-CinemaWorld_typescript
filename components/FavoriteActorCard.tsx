@@ -26,14 +26,14 @@ const styles = StyleSheet.create({
         elevation: 5,
         backgroundColor: '#fff',
         borderRadius: 8,
-        width: 170
+        width: 150
     },
     pressed: {
         opacity: 0.6
     },
     image: {
-         width: 150,
-        height: 150,
+         width: 120,
+        height: 120,
         marginVertical: 5,
         borderRadius: 8
     }
